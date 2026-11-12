@@ -1,0 +1,6 @@
+{
+  "uuid": "helper@vdesk-test",
+  "name": "Virtual Desktops test helper",
+  "description": "Test-only: lets the headless test session run scripts over org.gnome.Shell.Eval. Never install this in a real session.",
+  "shell-version": ["46", "47", "48", "49", "50", "51"]
+}

@@ -1,0 +1,69 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
+/* SPDX-FileCopyrightText: 2026 Jire */
+
+/*
+ * The desktop name flyout. The light variants use the .vdesk-light class,
+ * which JavaScript sets when GNOME Shell uses its light style; the active
+ * dot gets the system accent colour from JavaScript.
+ */
+
+.vdesk-flyout {
+    border-radius: 14px;
+    background-color: rgba(38, 38, 42, 0.80);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    box-shadow: 0 8px 28px 0 rgba(0, 0, 0, 0.40);
+}
+
+.vdesk-light .vdesk-flyout {
+    background-color: rgba(249, 249, 251, 0.84);
+    border-color: rgba(0, 0, 0, 0.09);
+    box-shadow: 0 8px 28px 0 rgba(0, 0, 0, 0.18);
+}
+
+.vdesk-flyout-content {
+    padding: 17px 38px;
+    min-width: 150px;
+    max-width: 560px;
+}
+
+.vdesk-flyout-title {
+    color: #ffffff;
+    font-size: 16pt;
+    font-weight: 600;
+    text-align: center;
+}
+
+.vdesk-light .vdesk-flyout-title {
+    color: #1d1d20;
+}
+
+.vdesk-flyout-caption {
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 10.5pt;
+    text-align: center;
+    padding-top: 3px;
+}
+
+.vdesk-light .vdesk-flyout-caption {
+    color: rgba(0, 0, 0, 0.62);
+}
+
+.vdesk-flyout-dots {
+    spacing: 7px;
+    padding-top: 11px;
+}
+
+.vdesk-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.32);
+}
+
+.vdesk-light .vdesk-dot {
+    background-color: rgba(0, 0, 0, 0.22);
+}
+
+.vdesk-dot:active {
+    width: 18px;
+}

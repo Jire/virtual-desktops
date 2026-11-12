@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libglib2.0-bin gjs gir1.2-gtk-4.0 shellcheck \
+            gsettings-desktop-schemas gnome-settings-daemon-common gnome-shell-common
+
+      - name: Check JavaScript syntax
+        run: |
+          for f in extension/*.js tests/*.js tests/headless/*.js scripts/*.js; do
+            echo "$f"
+            node --input-type=module --check < "$f"
+          done
+
+      - name: ESLint
+        run: npx --yes eslint@9 --max-warnings 0 .
+
+      - name: Unit tests
+        run: |
+          gjs -m tests/unit.test.js
+          gjs -m tests/conflicts.test.js
+
+      - name: Check metadata.json
+        run: |
+          python3 - <<'PY'
+          import json
+          m = json.load(open("extension/metadata.json"))
+          assert m["uuid"] == "virtual-desktops@jire.github.io"
+          assert m["shell-version"] and m["settings-schema"]
+          assert "version" not in m, "extensions.gnome.org sets version"
+          PY
+
+      - name: Check settings schema
+        run: glib-compile-schemas --strict --dry-run extension/schemas
+
+      - name: ShellCheck
+        run: shellcheck -x install.sh scripts/*.sh tests/headless/*.sh
+
+      - name: Build zip
+        run: scripts/build.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: extension-zip
+          path: dist/*.zip
+
+      - name: Publish release (tags only)
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1 \
+            || gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --generate-notes
+          gh release upload "$GITHUB_REF_NAME" dist/*.zip --clobber

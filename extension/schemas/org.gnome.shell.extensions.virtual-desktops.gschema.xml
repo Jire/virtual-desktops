@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: GPL-2.0-or-later -->
+<!-- SPDX-FileCopyrightText: 2026 Jire -->
+<schemalist>
+  <schema id="org.gnome.shell.extensions.virtual-desktops"
+          path="/org/gnome/shell/extensions/virtual-desktops/">
+
+    <!-- Keyboard shortcuts. The defaults are Windows 11's. The key names are
+         also the names of the Mutter keybindings, which are global, hence
+         the prefix. -->
+    <key name="virtual-desktop-left" type="as">
+      <default><![CDATA[['<Super><Control>Left']]]></default>
+      <summary>Switch to the desktop on the left</summary>
+    </key>
+    <key name="virtual-desktop-right" type="as">
+      <default><![CDATA[['<Super><Control>Right']]]></default>
+      <summary>Switch to the desktop on the right</summary>
+    </key>
+    <key name="virtual-desktop-new" type="as">
+      <default><![CDATA[['<Super><Control>d']]]></default>
+      <summary>Create a new desktop and switch to it</summary>
+    </key>
+    <key name="virtual-desktop-close" type="as">
+      <default><![CDATA[['<Super><Control>F4']]]></default>
+      <summary>Close the current desktop</summary>
+      <description>Its windows move to the desktop on the left (or on the right, when closing the first desktop).</description>
+    </key>
+
+    <!-- Behaviour -->
+    <key name="persistent-desktops" type="b">
+      <default>true</default>
+      <summary>Keep desktops until they are closed</summary>
+      <description>Like Windows, desktops stay until you close them, even when they are empty. GNOME's dynamic workspaces are turned off while this is on, and back on when it is turned off or the extension is disabled.</description>
+    </key>
+    <key name="span-all-displays" type="b">
+      <default>true</default>
+      <summary>Switch every display together</summary>
+      <description>Like Windows, desktops span all displays. GNOME's "workspaces on primary display only" is turned off while this is on, and back on when it is turned off or the extension is disabled.</description>
+    </key>
+    <key name="bounce" type="b">
+      <default>true</default>
+      <summary>Bounce at the first and last desktop</summary>
+    </key>
+    <key name="wrap-around" type="b">
+      <default>false</default>
+      <summary>Go from the last desktop to the first and back</summary>
+      <description>Windows 11 doesn't do this.</description>
+    </key>
+    <key name="switch-indicator" type="s">
+      <choices>
+        <choice value="name"/>
+        <choice value="gnome"/>
+        <choice value="none"/>
+      </choices>
+      <default>'name'</default>
+      <summary>What to show while switching desktops</summary>
+      <description>"name": the desktop's name in the middle of the screen, like Windows 11. "gnome": GNOME's own workspace indicator. "none": nothing.</description>
+    </key>
+    <key name="indicator-dots" type="b">
+      <default>false</default>
+      <summary>Show the desktop's position under its name</summary>
+    </key>
+    <key name="debug" type="b">
+      <default>false</default>
+      <summary>Debug logging</summary>
+    </key>
+
+    <!-- Internal state; not shown in the settings window. -->
+    <key name="saved-dynamic-workspaces" type="s">
+      <default>''</default>
+      <summary>GNOME's dynamic-workspaces value to put back</summary>
+      <description>'true' while the extension has turned GNOME's dynamic workspaces off; '' otherwise. Kept here so a crash or logout can't lose it.</description>
+    </key>
+    <key name="saved-workspaces-only-on-primary" type="s">
+      <default>''</default>
+      <summary>GNOME's workspaces-only-on-primary value to put back</summary>
+      <description>'true' while the extension has turned it off; '' otherwise.</description>
+    </key>
+    <key name="saved-num-workspaces" type="i">
+      <default>0</default>
+      <summary>GNOME's num-workspaces value to put back (0 = none)</summary>
+    </key>
+    <key name="suspend-shortcuts" type="b">
+      <default>false</default>
+      <summary>Shortcuts paused while the settings window records a new one</summary>
+    </key>
+  </schema>
+</schemalist>
